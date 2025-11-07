@@ -1,0 +1,14 @@
+import express from 'express';
+import dotenv from 'dotenv';
+import { connectDB } from './config/db.js';
+import mocksRouter from './routes/mocks.router.js';
+
+dotenv.config();
+
+const app = express();
+app.use(express.json());
+app.use('/api/mocks', mocksRouter); // ✅ router base
+
+connectDB();
+
+export default app;
