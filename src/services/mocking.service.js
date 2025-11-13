@@ -3,7 +3,7 @@ import { hashPassword } from '../utils/encrypt.js';
 
 export const generateMockUsers = async (quantity = 50) => {
   const users = [];
-  const encryptedPassword = await hashPassword('coder123'); // todos con "coder123"
+  const encryptedPassword = await hashPassword('coder123');
 
   for (let i = 0; i < quantity; i++) {
     users.push({
@@ -24,8 +24,9 @@ export const generateMockPets = (quantity = 10) => {
 
   for (let i = 0; i < quantity; i++) {
     pets.push({
-      name: faker.animal.name(),
+      name: faker.person.firstName(),
       species: faker.animal.type(),
+      age: faker.number.int({ min: 1, max: 15 }),
     });
   }
 

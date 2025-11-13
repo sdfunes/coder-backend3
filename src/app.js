@@ -7,7 +7,13 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
-app.use('/api/mocks', mocksRouter); // ✅ router base
+app.use('/api/mocks', mocksRouter);
+
+const PORT = process.env.PORT || 8080;
+
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor escuchando en puerto ${PORT}`);
+});
 
 connectDB();
 

@@ -2,7 +2,8 @@
   "name": "coder-backend3",
   "version": "1.0.0",
   "description": "Proyecto evaluable para el curso de backend3 de la plataforma Coderhouse",
-  "main": "index.js",
+  "main": "app.js",
+  "type": "module",
   "scripts": {
     "start": "node ./src/app.js",
     "dev": "node --watch ./src/app.js",

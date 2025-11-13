@@ -53,7 +53,7 @@ router.post('/generateData', async (req, res) => {
     for (let i = 0; i < pets; i++) {
       const owner = faker.helpers.arrayElement(insertedUsers);
       mockPets.push({
-        name: faker.animal.name(),
+        name: faker.person.firstName(),
         species: faker.animal.type(),
         owner: owner._id,
       });
