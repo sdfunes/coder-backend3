@@ -6,9 +6,6 @@ import {
 import User from '../models/user.model.js';
 import Pet from '../models/pet.model.js';
 
-/**
- * GET /api/mocks/mockingpets
- */
 export const mockingPets = (req, res) => {
   try {
     const count = parseInt(req.query.count) || 10;
@@ -19,9 +16,6 @@ export const mockingPets = (req, res) => {
   }
 };
 
-/**
- * GET /api/mocks/mockingusers
- */
 export const mockingUsers = async (req, res) => {
   try {
     const users = await generateMockUsers(50);
@@ -31,9 +25,6 @@ export const mockingUsers = async (req, res) => {
   }
 };
 
-/**
- * POST /api/mocks/generateData
- */
 export const generateData = async (req, res) => {
   try {
     const { users = 0, pets = 0 } = req.body;

@@ -1,5 +1,5 @@
 import app from './app.js';
 
 app.listen(process.env.PORT || 8080, () => {
-  console.log('Server running');
+  console.log('Servidor escuchando en el puerto', process.env.PORT || 8080);
 });
