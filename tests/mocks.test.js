@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { expect } from 'chai';
-import app from '../app.js';
+import app from '../src/app.js';
 
 describe('Mocks API', () => {
   it('GET /api/mocks/mockingpets → debe generar pets', async () => {

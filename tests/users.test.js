@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { expect } from 'chai';
-import app from '../app.js';
+import app from '../src/app.js';
 
 describe('Users API', () => {
   it('GET /api/users → debe retornar todos los usuarios', async () => {

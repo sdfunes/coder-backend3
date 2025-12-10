@@ -19,10 +19,10 @@ Incluye:
 
 La imagen se encuentra disponible en:
 
-👉 **https://hub.docker.com/r/<tu-usuario>/<tu-imagen>**
+👉 **https://hub.docker.com/r/sdfunes/mocks-api**
 
 Puedes ejecutarla con:
 
 ```bash
-docker run -p 8080:8080 <tu-usuario>/<tu-imagen>:latest
+docker run -p 8080:8080 sdfunes/mocks-api:latest
 ```

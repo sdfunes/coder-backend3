@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { expect } from 'chai';
-import app from '../app.js';
+import app from '../src/app.js';
 
 describe('Pets API', () => {
   it('GET /api/pets → debe retornar todas las mascotas', async () => {
