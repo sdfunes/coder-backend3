@@ -1,74 +1,158 @@
 import { Router } from 'express';
-import { faker } from '@faker-js/faker';
 import {
-  generateMockUsers,
-  generateMockPets,
-} from '../services/mocking.service.js';
-import { User } from '../models/user.model.js';
-import { Pet } from '../models/pet.model.js';
+  mockingPets,
+  mockingUsers,
+  generateData,
+} from '../controllers/mocks.controller.js';
 
 const router = Router();
 
 /**
- * ✅ GET /api/mocks/mockingpets
- * Genera mascotas falsas sin guardarlas
+ * @swagger
+ * components:
+ *   schemas:
+ *     MockUser:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *         first_name:
+ *           type: string
+ *         last_name:
+ *           type: string
+ *         email:
+ *           type: string
+ *         password:
+ *           type: string
+ *         role:
+ *           type: string
+ *           enum: [user, admin]
+ *         pets:
+ *           type: array
+ *           items:
+ *             type: string
+ *         documents:
+ *           type: array
+ *           items:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               reference:
+ *                 type: string
+ *         last_connection:
+ *           type: string
+ *           format: date-time
+ *
+ *     MockPet:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *         name:
+ *           type: string
+ *         species:
+ *           type: string
+ *         owner:
+ *           type: string
  */
-router.get('/mockingpets', (req, res) => {
-  try {
-    const count = parseInt(req.query.count) || 10;
-    const pets = generateMockPets(count);
-    res.json({ success: true, pets });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-});
 
 /**
- * ✅ GET /api/mocks/mockingusers
- * Genera 50 usuarios con password encriptada ("coder123"), roles variados y pets vacíos
+ * @swagger
+ * /api/mocks/mockingpets:
+ *   get:
+ *     summary: Genera mascotas mock sin guardarlas en la base de datos
+ *     tags: [Mocking]
+ *     parameters:
+ *       - in: query
+ *         name: count
+ *         schema:
+ *           type: integer
+ *         description: Cantidad de mascotas a generar (default 10)
+ *     responses:
+ *       200:
+ *         description: Lista de mascotas generadas
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 pets:
+ *                   type: array
+ *                   items:
+ *                     $ref: "#/components/schemas/MockPet"
+ *       500:
+ *         description: Error interno
  */
-router.get('/mockingusers', async (req, res) => {
-  try {
-    const users = await generateMockUsers(50);
-    res.json({ success: true, users });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-});
 
+router.get('/mockingpets', mockingPets);
 /**
- * ✅ POST /api/mocks/generateData
- * Recibe { users, pets } → inserta esos datos en la base Mongo
+ * @swagger
+ * /api/mocks/mockingusers:
+ *   get:
+ *     summary: Genera 50 usuarios mock sin guardarlos en la base de datos
+ *     tags: [Mocking]
+ *     responses:
+ *       200:
+ *         description: Lista de usuarios generados
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 users:
+ *                   type: array
+ *                   items:
+ *                     $ref: "#/components/schemas/MockUser"
+ *       500:
+ *         description: Error interno
  */
-router.post('/generateData', async (req, res) => {
-  try {
-    const { users = 0, pets = 0 } = req.body;
 
-    // Generar e insertar usuarios
-    const mockUsers = await generateMockUsers(users);
-    const insertedUsers = await User.insertMany(mockUsers);
+router.get('/mockingusers', mockingUsers);
+/**
+ * @swagger
+ * /api/mocks/generateData:
+ *   post:
+ *     summary: Genera usuarios y mascotas mock, y los inserta en la base de datos
+ *     tags: [Mocking]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               users:
+ *                 type: integer
+ *                 description: Cantidad de usuarios a generar
+ *               pets:
+ *                 type: integer
+ *                 description: Cantidad de mascotas a generar
+ *             example:
+ *               users: 5
+ *               pets: 10
+ *     responses:
+ *       200:
+ *         description: Datos generados exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 insertedUsers:
+ *                   type: integer
+ *                 insertedPets:
+ *                   type: integer
+ *       500:
+ *         description: Error interno
+ */
 
-    // Generar e insertar mascotas
-    const mockPets = [];
-    for (let i = 0; i < pets; i++) {
-      const owner = faker.helpers.arrayElement(insertedUsers);
-      mockPets.push({
-        name: faker.person.firstName(),
-        species: faker.animal.type(),
-        owner: owner._id,
-      });
-    }
-
-    const insertedPets = await Pet.insertMany(mockPets);
-
-    res.json({
-      success: true,
-      insertedUsers: insertedUsers.length,
-      insertedPets: insertedPets.length,
-    });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-});
+router.post('/generateData', generateData);
 
 export default router;

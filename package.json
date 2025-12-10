@@ -5,9 +5,9 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "start": "node ./src/app.js",
-    "dev": "node --watch ./src/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./src/server.js",
+    "dev": "node --watch ./src/server.js",
+    "test": "mocha tests/**/*.test.js --timeout 10000"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +17,15 @@
     "bcrypt": "^6.0.0",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
-    "mongoose": "^8.19.3"
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^8.19.3",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "chai": "^6.2.1",
+    "mocha": "^11.7.5",
+    "mongodb-memory-server": "^10.4.1",
+    "supertest": "^7.1.4"
   }
 }

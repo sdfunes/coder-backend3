@@ -1,7 +1,7 @@
 import User from '../models/user.model.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { updateLastConnection } from '../services/user.service.js';
+import { updateLastConnection } from '../services/users.service.js';
 
 export const login = async (req, res) => {
   try {
